@@ -1,4 +1,4 @@
-<article class="card {{#if alternate}}card--alternate{{/if}}" {{#if settings.data_tag_enabled}} data-event-type="{{event}}" data-entity-id="{{id}}" data-position="{{position}}" data-name="{{name}}" data-product-category="{{#each category}}{{#if @last}}{{this}}{{else}}{{this}}, {{/if}}{{/each}}" data-product-brand="{{brand.name}}" data-product-price="{{#if price.with_tax}}{{price.with_tax.value}}{{else}}{{price.without_tax.value}}{{/if}}"  {{/if}}>
+<article class="card {{#if alternate}}card--alternate{{/if}} testing_here" {{#if settings.data_tag_enabled}} data-event-type="{{event}}" data-entity-id="{{id}}" data-position="{{position}}" data-name="{{name}}" data-product-category="{{#each category}}{{#if @last}}{{this}}{{else}}{{this}}, {{/if}}{{/each}}" data-product-brand="{{brand.name}}" data-product-price="{{#if price.with_tax}}{{price.with_tax.value}}{{else}}{{price.without_tax.value}}{{/if}}"  {{/if}}>
     <figure class="card-figure">
         {{#or price.non_sale_price_with_tax price.non_sale_price_without_tax}}
             {{#if theme_settings.product_sale_badges '===' 'sash'}}
@@ -16,8 +16,17 @@
                 </div>
             {{/if}}
         {{/or}}
-        <a href="{{url}}" {{#if settings.data_tag_enabled}} data-event-type="product-click" {{/if}}>
+        <a href="{{url}}" class="link-card-img-container" {{#if settings.data_tag_enabled}} data-event-type="product-click" {{/if}}>
+            
             <div class="card-img-container">
+                <img 
+                    class="card-image lazyload secundary-image" 
+                    data-sizes="auto" 
+                    src="{{cdn 'img/loading.svg'}}" 
+                    alt="{{image.alt}}" 
+                    title="{{image.alt}}"
+                    data-src="{{#replace '{:size}' images.1.data}}500x500{{/replace}}"
+                >
                 {{> components/common/responsive-img
                     image=image
                     class="card-image"
@@ -27,7 +36,6 @@
                 }}
             </div>
         </a>
-
         <figcaption class="card-figcaption">
             <div class="card-figcaption-body">
                 {{#unless hide_product_quick_view}}

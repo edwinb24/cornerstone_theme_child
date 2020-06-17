@@ -11,7 +11,6 @@
 //
 // -----------------------------------------------------------------------------
 
-
 .card-figure {
     margin-top: $card-figure-marginTop;
     position: relative;
@@ -21,7 +20,20 @@
         .card-figcaption {
             opacity: 1;
         }
+        .secundary-image {
+            opacity: 1;
+        }
     }
+}
+
+.link-card-img-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+}
+
+.card-img-container {
+    grid-row: 1/-1;
 }
 
 .card-img-container {
@@ -30,10 +42,17 @@
     @include lazy-loaded-padding('productgallery_size');
 }
 
+.secundary-image {
+    opacity: 0;
+    z-index: 9;
+    transition: opacity ease-in .6s;
+}
+
 .card-figcaption {
     display: none;
     margin: $card-figcaption-margin;
     pointer-events: none; // 1
+    z-index: 10;
 
     @include breakpoint("medium") {
         display: block;
