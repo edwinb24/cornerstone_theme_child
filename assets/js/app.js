@@ -2,6 +2,8 @@ __webpack_public_path__ = window.__webpack_public_path__; // eslint-disable-line
 
 import Global from './theme/global';
 
+import {AddAllItems, RemoveAllItems} from "./theme/multiple-items-cart-handler"
+
 const getAccount = () => import('./theme/account');
 const getLogin = () => import('./theme/auth');
 const noop = null;
@@ -66,11 +68,14 @@ window.stencilBootstrap = function stencilBootstrap(pageType, contextJSON = null
 
     return {
         load() {
+
             $(() => {
                 // Load globals
                 if (loadGlobal) {
                     Global.load(context);
                 }
+                AddAllItems()
+                RemoveAllItems()
 
                 const importPromises = [];
 

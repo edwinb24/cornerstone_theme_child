@@ -43,6 +43,18 @@
                 {{/if}}
             {{/if}}
         </li>
+        {{#if category.id '==' 24 }}
+            <li class="navUser-item navUser-all-items-to--cart">
+                <button class="navUser-action" id="add-all-to--cart" data-all-items-cart>
+                    <span class="navUser-item-cartLabel">{{lang 'common.add_all_to_cart'}}</span>
+                </button>
+            </li>
+            <li class="navUser-item navUser-all-items-to--cart">
+                <button class="navUser-action" id="remove-all-to--cart" data-all-items-cart>
+                    <span class="navUser-item-cartLabel">{{lang 'common.add_all_to_cart'}}{{cart.quantity}}</span>
+                </button>
+            </li>
+        {{/if}}
         <li class="navUser-item navUser-item--cart">
             <a
                 class="navUser-action"
@@ -52,7 +64,6 @@
                 href="{{urls.cart}}">
                 <span class="navUser-item-cartLabel">{{lang 'common.cart'}}</span> <span class="countPill cart-quantity"></span>
             </a>
-
             <div class="dropdown-menu" id="cart-preview-dropdown" data-dropdown-content aria-hidden="true"></div>
         </li>
     </ul>
