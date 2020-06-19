@@ -45,15 +45,31 @@
         </li>
         {{#if category.id '==' 24 }}
             <li class="navUser-item navUser-all-items-to--cart">
-                <button class="navUser-action" id="add-all-to--cart" data-all-items-cart>
-                    <span class="navUser-item-cartLabel">{{lang 'common.add_all_to_cart'}}</span>
-                </button>
+                <a href="#myModal" data-reveal-id="itemsAddedModal">
+                    <button class="navUser-action" id="add-all-to--cart" data-all-items-cart>
+                        <span class="navUser-item-cartLabel">{{lang 'common.add_all_to_cart'}}</span>
+                    </button>
+                </a>
+                <div id="itemsAddedModal" class="modal" data-reveal>
+                    <a href="#" class="modal-close" aria-label="{{lang 'common.close'}}" role="button">
+                        <span aria-hidden="true">&#215;</span>
+                    </a>
+                    <h1>All items had been added to cart!</h1>
+                </div>
             </li>
             <li class="navUser-item navUser-remove-all-items-from--cart">
-                <span class="countPill cart-quantity"></span>
-                <button class="navUser-action" id="remove-all-to--cart" data-all-items-cart>
-                    <span class="navUser-item-cartLabel">{{lang 'common.remove_all_from_cart'}}</span>
-                </button>
+                <a href="#myModal" data-reveal-id="itemsAddedModal">
+                    <span class="countPill cart-quantity"></span>
+                    <button class="navUser-action" id="remove-all-to--cart" data-all-items-cart>
+                        <span class="navUser-item-cartLabel">{{lang 'common.remove_all_from_cart'}}</span>
+                    </button>
+                </a>
+                <div id="itemsAddedModal" class="modal" data-reveal>
+                    <a href="#" class="modal-close" aria-label="{{lang 'common.close'}}" role="button">
+                        <span aria-hidden="true">&#215;</span>
+                    </a>
+                    <h1>All items had been removed to cart!</h1>
+                </div>
             </li>
         {{/if}}
         <li class="navUser-item navUser-item--cart">

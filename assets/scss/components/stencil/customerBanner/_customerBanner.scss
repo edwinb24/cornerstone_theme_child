@@ -1,0 +1,44 @@
+
+.customer_info_banner {
+    display:flex;
+    padding-left: 5vw;
+    padding-right: 5vw;
+    padding-bottom: 15px;
+    padding-top: 15px;
+    background-color: stencilColor("color-greyDark");
+    color: stencilColor("color-greyLightest");
+    font-size: clam;
+}
+
+.customer_info_banner div {
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+}
+
+.customer_info_banner span, svg {
+    filter: contrast(0) brightness(130%) grayscale(3%);
+}
+
+.customer_info_banner p {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-right: 0px;
+    margin-left: 10px;
+}
+
+.customer_info_banner .customer_name {
+    text-transform: uppercase;
+}
+
+.customer_info_banner .customer_email {
+    text-transform: lowercase;
+}
+
+@media (max-width: 801px) {
+    .customer_info_banner {
+        display: none
+    }
+}

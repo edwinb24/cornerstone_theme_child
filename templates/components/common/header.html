@@ -9,6 +9,9 @@
     {{/each}}
 </div>
 {{/if}}
+{{#if customer}}
+    {{> components/common/customer-banner}}
+{{/if}}
 <header class="header" role="banner">
     <a href="#" class="mobileMenu-toggle" data-mobile-menu-toggle="menu">
         <span class="mobileMenu-toggleIcon">Toggle menu</span>
