@@ -38,7 +38,6 @@ async function addAllItemsToCart () {
         const itemList = []
         productsDisplayList.forEach(product => {
                 prodId = product.querySelector("[data-product-id]").getAttribute("data-product-id")
-                console.log(parseInt(prodId))
                 itemList.push({
                         "quantity": 1, 
                         "productId": parseInt(prodId)
@@ -46,6 +45,7 @@ async function addAllItemsToCart () {
         })
 
         const carts = await getCart().then(data => data)
+        console.log(carts)
         let url = "/api/storefront/carts"
         url = carts.length > 0 ? url+`/${carts[0].id}/items`: url
 
@@ -75,64 +75,71 @@ async function getCart() {
 }
 
 async function deleteItem(cartId, itemId) {
-        const url = `/api/storefront/carts/${cartId}/items/${itemId}`
+        const url = `/api/storefront/carts/${cartId}/items/${itemId}?include=lineItems.digitalItems.options%2ClineItems.physicalItems.options`
         try {
                 const resp = await fetch(url, {
                         method: "DELETE",
                         credentials: "same-origin",
                         headers: {"content-type": "application/json"}
                 })
-                const response = await resp.json()
-                if (!response)
+                if (!resp.status != 204)
                         throw Error(resp.statusText)
         } catch (error) {
                 console.log(
-                        `%c Error Looking up Cart \n 
+                        `%c Error Deleting Items from Cart \n 
                         ${error}`, "color: salmon; font-size: 18px; font-weight: 800"
                 )
         }
 }
 
-async function deleteCart(cartId) {
-        const url = `/api/storefront/carts/${cartId}`
-        try {
-                const resp = await fetch(url, {
-                        method: "DELETE",
-                        credentials: "same-origin",
-                        headers: {"content-type": "application/json"}
-                })
-                const response = await resp.json()
-                if (!response)
-                        throw Error(resp.statusText)
-        } catch (error) {
-                console.log(
-                        `%c Error Looking up Cart \n 
-                        ${error}`, "color: salmon; font-size: 18px; font-weight: 800"
-                )
-        }
-}
 
+/****** Delete all Items from cart by erasing cart ******/
+// async function deleteCart(cartId) {
+//         const url = `/api/storefront/carts/${cartId}`
+//         try {
+//                 const resp = await fetch(url, {
+//                         method: "DELETE",
+//                         credentials: "same-origin",
+//                         headers: {"content-type": "application/json"}
+//                 })
+//                 const response = await resp.json()
+//                 if (!response)
+//                         throw Error(resp.statusText)
+//         } catch (error) {
+//                 console.log(
+//                         `%c Error Looking up Cart \n 
+//                         ${error}`, "color: salmon; font-size: 18px; font-weight: 800"
+//                 )
+//         }
+// }
+
+// async function removeAllItemsFromCart2 () {
+//         const carts = await getCart().then(data => data)
+//         carts.forEach(cart => {deleteCart(cart.id)})
+// }
 
 async function removeAllItemsFromCart () {
         const carts = await getCart().then(data => data)
+        console.log(carts)
+        if(carts.length < 1)
+                return
         carts.forEach((cart) => {
                 let map = new Map(Object.entries(cart.lineItems))
                 map.forEach(itemTypes => {
                         if(itemTypes.length > 0)
                                 itemTypes.forEach(item => {
+                                                console.log(cart.id)
+                                                console.log(item.id)
+
                                                 deleteItem(cart.id, item.id)
                                 })
                 } )
         })
 }
 
-async function removeAllItemsFromCart2 () {
-        const carts = await getCart().then(data => data)
-        carts.forEach(cart => {deleteCart(cart.id)})
-}
 
 export const AddAllItems = () => $("#add-all-to--cart").click(() => addAllItemsToCart());
-export const RemoveAllItems = () => $("#remove-all-to--cart").click(() => removeAllItemsFromCart2());
+export const RemoveAllItems = () => $("#remove-all-to--cart").click(() => removeAllItemsFromCart());
 
 
 
