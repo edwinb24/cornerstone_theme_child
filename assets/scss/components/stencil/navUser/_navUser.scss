@@ -214,6 +214,18 @@
     }
 }
 
+#remove-all-to--cart {
+    display: none;
+}
+
+.navUser-remove-all-items-from--cart .countPill {
+    display: none;
+}
+
+.countPill--positive+#remove-all-to--cart {
+    display: block;
+}
+
 .navUser-item--compare {
     display: none;
 
