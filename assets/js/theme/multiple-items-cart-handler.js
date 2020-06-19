@@ -4,9 +4,11 @@ import 'regenerator-runtime/runtime'
 // function displayAlert(message) {
 //         const overlay = document.getElementById("overlay")
 //         overlay.style("display","block")
+        // const header = document.getElementsByClassName('header')[0]
+        // header.appendChild(div)
 // }
 
-async function createCart2 (url, cartItems) {
+async function addItemsToCart (url, cartItems) {
         try {
                 const resp = await fetch(url, {
                         method: "POST",
@@ -19,7 +21,6 @@ async function createCart2 (url, cartItems) {
                 if (!response) {
                         throw Error(resp.statusText);
                 }
-                // displayAlert("items Added to Cart")
         } catch (error) {
                 console.log(
                         `%c Error Adding Items to Cart \n 
@@ -28,30 +29,100 @@ async function createCart2 (url, cartItems) {
         }
 }
 
-function addAllItemsToBasket () {
-      createCart2(`/api/storefront/carts`, {
-        "lineItems": [
-        {
-            "quantity": 1,
-            "productId": 86
-        },
-        {
-            "quantity": 1,
-            "productId": 88
+async function getAllItems(url) {
+        let cartList = false
+        try {
+                const resp = await fetch(url, {
+                        method: "GET",
+                        credentials: "same-origin",
+                })
+                const response = await resp.json()
+                if (!response)
+                        throw Error(resp.statusText)
+                else
+                        cartList = response  
+        } catch (error) {
+                console.log(
+                        `%c Error Looking up Cart \n 
+                        ${error}`, "color: salmon; font-size: 18px; font-weight: 800"
+                )
         }
-        ]}
-     )
-     .then(data => console.log(JSON.stringify(data)))
-     .catch(error => console.error(error));
+        return cartList
 }
 
-export const AddAllItems = () => 
-        console.log("Irun")
-        $("#add-all-to--cart").click(() => addAllItemsToBasket());
 
-export const RemoveAllItems = () => 
-        console.log("Irun")
-        $("#remove-all-to--cart").click(() => addAllItemsToBasket());
+async function addAllItemsToCart () {
+        const carts = await getAllItems('/api/storefront/carts?include=lineItems.digitalItems.options,lineItems.physicalItems.options').then(data => data)
+        console.log(carts)
+        // addItemsToCart(`/api/storefront/carts`, {
+        //         "lineItems": [
+        //                 {"quantity": 1, "productId": 86}
+        //         ]
+        // })
+}
+
+async function getCart(url) {
+        let cartList = false
+        try {
+                const resp = await fetch(url, {
+                        method: "GET",
+                        credentials: "same-origin",
+                })
+                const response = await resp.json()
+                if (!response)
+                        throw Error(resp.statusText)
+                else
+                        cartList = response  
+        } catch (error) {
+                console.log(
+                        `%c Error Looking up Cart \n 
+                        ${error}`, "color: salmon; font-size: 18px; font-weight: 800"
+                )
+        }
+        return cartList
+}
+
+async function deleteItem(cartId, itemId) {
+        const url = `/api/storefront/carts/${cartId}/items/${itemId}`
+        try {
+                const resp = await fetch(url, {
+                        method: "DELETE",
+                        credentials: "same-origin",
+                        headers: {"Content-Type": "application/json"}
+                })
+                const response = await resp.json()
+                if (!response)
+                        throw Error(resp.statusText)
+        } catch (error) {
+                console.log(
+                        `%c Error Looking up Cart \n 
+                        ${error}`, "color: salmon; font-size: 18px; font-weight: 800"
+                )
+        }
+}
+
+async function removeAllItemsFromCart () {
+        const carts = await getCart('/api/storefront/carts?include=lineItems.digitalItems.options,lineItems.physicalItems.options').then(data => data)
+        console.log(carts)
+        carts.forEach((cart) => {
+                let map = new Map(Object.entries(cart.lineItems))
+                map.forEach(itemTypes => {
+                        if(itemTypes.length > 0)
+                                itemTypes.forEach(item => {
+                                                deleteItem(cart.id, item.id)
+                                })
+                } )
+        })
+}
+
+export const AddAllItems = () => $("#add-all-to--cart").click(() => addAllItemsToCart());
+export const RemoveAllItems = () => $("#remove-all-to--cart").click(() => removeAllItemsFromCart());
+
+
+
+
+
+
 
 
         // const response = await fetch(`/api/storefront/carts`, {
@@ -62,7 +133,6 @@ export const RemoveAllItems = () =>
 
 // export const RemoveAllItems = () => {
 //     if(localStorage.getItem('cart-quantity') > 0)
-//     console.log("Irun")
 //     $("#remove-all-to--cart").click(function() {
 //         alert( "Handler for .click() called." );
 //     });

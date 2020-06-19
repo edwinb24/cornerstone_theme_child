@@ -153,6 +153,7 @@
         "account": "Account",
         "cart": "Cart",
         "add_all_to_cart": "Add All To Cart",
+        "remove_all_from_cart": "Empty Cart",
         "search": "Search",
         "gift_cert": "Gift Certificates",
         "save": "Save",
