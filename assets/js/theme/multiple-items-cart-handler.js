@@ -1,13 +1,6 @@
 
 import 'regenerator-runtime/runtime'
 
-// function displayAlert(message) {
-//         const overlay = document.getElementById("overlay")
-//         overlay.style("display","block")
-        // const header = document.getElementsByClassName('header')[0]
-        // header.appendChild(div)
-// }
-
 async function addItemsToCart (url, cartItems) {
 
         try {
@@ -45,11 +38,16 @@ async function addAllItemsToCart () {
         })
 
         const carts = await getCart().then(data => data)
-        console.log(carts)
         let url = "/api/storefront/carts"
         url = carts.length > 0 ? url+`/${carts[0].id}/items`: url
 
         addItemsToCart(url, {"lineItems": itemList})
+        const quantity = Number(localStorage.getItem('cart-quantity')) ?
+                        Number(localStorage.getItem('cart-quantity')):
+                        0
+
+        $('body').trigger('cart-quantity-update', quantity + itemList.length); 
+        
 }
 
 async function getCart() {
@@ -82,7 +80,7 @@ async function deleteItem(cartId, itemId) {
                         credentials: "same-origin",
                         headers: {"content-type": "application/json"}
                 })
-                if (!resp.status != 204)
+                if (!resp.status == 204)
                         throw Error(resp.statusText)
         } catch (error) {
                 console.log(
@@ -94,6 +92,12 @@ async function deleteItem(cartId, itemId) {
 
 
 /****** Delete all Items from cart by erasing cart ******/
+/**
+ * This implementation might cause unforseen effects in the application 
+ * if I had more experience developing using BigCommerce I would feel more
+ * confident about deleting items this way.
+ **/
+
 // async function deleteCart(cartId) {
 //         const url = `/api/storefront/carts/${cartId}`
 //         try {
@@ -107,7 +111,7 @@ async function deleteItem(cartId, itemId) {
 //                         throw Error(resp.statusText)
 //         } catch (error) {
 //                 console.log(
-//                         `%c Error Looking up Cart \n 
+//                         `%c Error Deleting Cart \n 
 //                         ${error}`, "color: salmon; font-size: 18px; font-weight: 800"
 //                 )
 //         }
@@ -120,7 +124,6 @@ async function deleteItem(cartId, itemId) {
 
 async function removeAllItemsFromCart () {
         const carts = await getCart().then(data => data)
-        console.log(carts)
         if(carts.length < 1)
                 return
         carts.forEach((cart) => {
@@ -128,13 +131,11 @@ async function removeAllItemsFromCart () {
                 map.forEach(itemTypes => {
                         if(itemTypes.length > 0)
                                 itemTypes.forEach(item => {
-                                                console.log(cart.id)
-                                                console.log(item.id)
-
                                                 deleteItem(cart.id, item.id)
                                 })
                 } )
         })
+        $('body').trigger('cart-quantity-update', 0);
 }
 
 

@@ -32,7 +32,6 @@
         transform: none;
         z-index: zIndex("high");
     }
-
     .dropdown-menu {
         background-color: stencilColor("navUser-dropdown-backgroundColor");
         border: 1px solid stencilColor("navUser-dropdown-borderColor");
@@ -216,6 +215,12 @@
 
 #remove-all-to--cart {
     display: none;
+}
+
+.navUser-all-items-to--cart, .navUser-remove-all-items-from--cart {
+    a {
+        text-decoration: none;
+    }
 }
 
 .navUser-remove-all-items-from--cart .countPill {

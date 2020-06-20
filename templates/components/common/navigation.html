@@ -50,25 +50,31 @@
                         <span class="navUser-item-cartLabel">{{lang 'common.add_all_to_cart'}}</span>
                     </button>
                 </a>
-                <div id="itemsAddedModal" class="modal" data-reveal>
+                <div id="itemsAddedModal" class="modal modal--small" data-reveal>
                     <a href="#" class="modal-close" aria-label="{{lang 'common.close'}}" role="button">
                         <span aria-hidden="true">&#215;</span>
                     </a>
-                    <h1>All items had been added to cart!</h1>
+                    <div class="modal-content">
+                        <h1>{{lang 'common.add_all_to_cart_notification'}}</h1>
+                    </div>
+                    <div class="loadingOverlay"></div>
                 </div>
             </li>
             <li class="navUser-item navUser-remove-all-items-from--cart">
-                <a href="#myModal" data-reveal-id="itemsAddedModal">
+                <a href="#myModal" data-reveal-id="itemsRemovedModal">
                     <span class="countPill cart-quantity"></span>
                     <button class="navUser-action" id="remove-all-to--cart" data-all-items-cart>
                         <span class="navUser-item-cartLabel">{{lang 'common.remove_all_from_cart'}}</span>
                     </button>
                 </a>
-                <div id="itemsAddedModal" class="modal" data-reveal>
+                <div id="itemsRemovedModal" class="modal modal--small" data-reveal>
                     <a href="#" class="modal-close" aria-label="{{lang 'common.close'}}" role="button">
                         <span aria-hidden="true">&#215;</span>
                     </a>
-                    <h1>All items had been removed to cart!</h1>
+                    <div class="modal-content">
+                        <h1>{{lang 'common.remove_all_from_cart_notification'}}</h1>
+                    </div>
+                    <div class="loadingOverlay"></div>
                 </div>
             </li>
         {{/if}}
