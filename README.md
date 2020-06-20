@@ -1,6 +1,7 @@
 Links to the Storefront and preview code:
 
 **Storefront:** https://edwin-broces-amazing-store.mybigcommerce.com
+
 **Preview Code:** i5lrc84iiy
 
    First, I created a BigCommerce account. Then, I installed the Stencil CLI in my Windows machine using Chocolatey and went through the steps to live preview a theme.
